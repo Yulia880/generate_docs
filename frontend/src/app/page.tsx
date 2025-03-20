@@ -1,6 +1,13 @@
 "use client";
+
 import { useState, useEffect } from "react";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
+import { Box, TextField, Button, Typography, Divider } from "@mui/material";
+import PageAppBar from "./appBar/PageAppBar";
+import TextLabel from "@/components/TextLabel";
+import ProjectInformation from "./dataDisplay/ProjectInformation";
+import Clientnformation from "./dataDisplay/ClientInformation";
+import BuildingDescription from "./dataDisplay/BuildingDescription";
+import ConstructionRequirements from "./dataDisplay/ConstructionRequirements";
 
 export default function Home() {
   // Initialize formData with default values to prevent hydration mismatch
@@ -45,46 +52,61 @@ export default function Home() {
     
 
   return (
-    <Container maxWidth="sm">
-      <Box display="flex" flexDirection="column" alignItems="center" gap={3} mt={5}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Generate Word Document
-        </Typography>
+    <Box sx={{ width: "100%"}}>
+      <PageAppBar />
+      <Box gap={2} sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginY: "15px", paddingX: "24px"}}>
+        <Box>
+        <Typography variant="h5" sx={{ fontWeight: "bold"}}> Generate Word Document </Typography>
+        <Typography fontSize={13}> Generate Word Document allows you to quickly create and customize professional Word documents with ease.</Typography>
+        </Box>
         {/* Form component */}
-        <Box component="form" onSubmit={handleSubmit} width="100%" display="flex" flexDirection="column" gap={2}>
-          <TextField
-            label="Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            fullWidth
-            required
-          />
-          <TextField
-            label="Date"
-            name="date"
-            type="date"
-            value={formData.date}
-            onChange={handleChange}
-            fullWidth
-            required
-            InputLabelProps={{ shrink: true }}
-          />
+        <Box component="form" display="flex" flexDirection="column" gap={1.5} sx={{ width: "100%", paddingTop: "12px"}}>
+
+        <Box gap={3} sx={{ display: "flex", width: "100%"}} >
+        <TextLabel textLabel={"Project Number"}>
+            <TextField name="name" value={formData.name} onChange={handleChange}/>
+          </TextLabel>
+          <TextLabel textLabel={"Report Date"}>
+            <TextField name="date" value={formData.date} type="date" onChange={handleChange} sx={{ marginLeft: "33px"}} />
+          </TextLabel>
+          </Box>
+
+          <Box gap={3} sx={{ display: "flex", width: "100%"}} >
+          <TextLabel textLabel={"Report Author"}>
+            <TextField name="rptAuthor" onChange={handleChange} sx={{marginLeft: "10px"}} />
+          </TextLabel>
+          <TextLabel textLabel={"Report Reviewer "}>
+            <TextField name="rptReviewer" onChange={handleChange} />
+          </TextLabel>
+          </Box>
+
+          <Divider sx={{ width: "100%", paddingTop: "12px"}} />
+          <ProjectInformation />
+
+          <Divider sx={{ width: "100%"}} />
+          <Clientnformation />
+
+          <Divider sx={{ width: "100%"}} />
+          <BuildingDescription />
+
+          <Divider sx={{ width: "100%"}} />
+          <ConstructionRequirements />
+          
           <TextField
             label="Comment"
             name="comment"
             value={formData.comment}
             onChange={handleChange}
-            fullWidth
             required
             multiline
             rows={4}
+            sx={{ display: "none"}}
           />
-          <Button type="submit" variant="contained" color="primary">
-            Generate
-          </Button>
         </Box>
+        <Button onClick={handleSubmit} variant="contained" color="primary" sx={{ width: "auto", paddingTop: "12px"}}>
+          Generate  
+        </Button>
       </Box>
-    </Container>
+    </Box>
   );
 }
